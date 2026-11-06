@@ -1,6 +1,6 @@
 # The Alfie · The Bench
 
-Registration microsite behind the QR on The Alfie's Melrose Arch hoarding. Spec: [HANDOVER.md](HANDOVER.md).
+Registration microsite behind the QR on The Alfie's Melrose Arch hoarding. The project brief (HANDOVER.md) is kept outside this repo, with G&G.
 
 Age gate → one-page hero + form → success screen with a personalised bench ticket (also a PNG).
 
