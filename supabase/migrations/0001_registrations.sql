@@ -1,5 +1,6 @@
 -- The Bench: registrations for The Alfie's opening night reserves list.
-create type public.fan_type as enum ('analyst', 'superfan', 'host', 'guest');
+-- The four audiences from Grid's brand deck.
+create type public.fan_type as enum ('connoisseur', 'passionate', 'social', 'uninitiated');
 
 create table public.registrations (
   id uuid primary key default gen_random_uuid(),
@@ -11,7 +12,6 @@ create table public.registrations (
   date_of_birth date not null,
   sports text[] not null default '{}',
   fan_type public.fan_type,
-  fan_audience text,
   email_opt_in boolean not null default false,
   whatsapp_opt_in boolean not null default false,
   consent_text_version text not null,

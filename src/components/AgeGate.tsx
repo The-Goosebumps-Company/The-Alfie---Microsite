@@ -8,10 +8,10 @@ import { Logo } from "./Shell";
 import { Underage } from "./Underage";
 
 type Part = "day" | "month" | "year";
-const PARTS: { key: Part; max: number; label: string }[] = [
-  { key: "day", max: 2, label: copy.ageGate.day },
-  { key: "month", max: 2, label: copy.ageGate.month },
-  { key: "year", max: 4, label: copy.ageGate.year },
+const PARTS: { key: Part; max: number; placeholder: string; label: string }[] = [
+  { key: "day", max: 2, placeholder: copy.ageGate.day, label: copy.ageGate.dayLabel },
+  { key: "month", max: 2, placeholder: copy.ageGate.month, label: copy.ageGate.monthLabel },
+  { key: "year", max: 4, placeholder: copy.ageGate.year, label: copy.ageGate.yearLabel },
 ];
 
 export function AgeGate() {
@@ -77,36 +77,34 @@ export function AgeGate() {
   return (
     <div className="flex flex-1 flex-col justify-center">
       <Logo />
-      <form onSubmit={submit} noValidate className="mt-10 text-center">
-        <p className="font-label text-[12px] font-medium tracking-[0.28em] text-gold">{copy.ageGate.eyebrow}</p>
-        <h1 className="mt-3 font-heading text-[40px] leading-[1.05] text-cream">{copy.ageGate.heading}</h1>
-        <p className="mx-auto mt-3 max-w-[20rem] text-[16px] leading-relaxed text-muted">{copy.ageGate.body}</p>
+      <form onSubmit={submit} noValidate className="panel mt-10 px-6 pb-8 pt-10 text-center">
+        <h1 className="script-heading text-[50px]">{copy.ageGate.heading}</h1>
+        <p className="mx-auto mt-3 max-w-[18rem] text-[16px] leading-relaxed text-white/80">{copy.ageGate.body}</p>
 
         <fieldset className="mt-8">
           <legend className="sr-only">Date of birth</legend>
           <div className="flex justify-center gap-3">
             {PARTS.map((p, i) => (
-              <input
-                key={p.key}
-                ref={(el) => {
-                  refs.current[i] = el;
-                }}
-                value={value[p.key]}
-                onChange={(e) => change(i, e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Backspace" && !value[p.key]) refs.current[i - 1]?.focus();
-                }}
-                onPaste={paste}
-                inputMode="numeric"
-                autoComplete={i === 0 ? "bday-day" : i === 1 ? "bday-month" : "bday-year"}
-                placeholder={p.label}
-                aria-label={p.label}
-                aria-invalid={!!error}
-                aria-describedby={error ? "dob-error" : undefined}
-                className={`h-[60px] rounded-md border bg-deep/70 text-center font-label text-[22px] tracking-[0.12em] text-cream placeholder:text-muted/45 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40 ${
-                  p.max === 4 ? "w-[112px]" : "w-[76px]"
-                } ${error ? "border-alert" : "border-gold/45"}`}
-              />
+              <label key={p.key} className="flex flex-col items-center">
+                <input
+                  ref={(el) => {
+                    refs.current[i] = el;
+                  }}
+                  value={value[p.key]}
+                  onChange={(e) => change(i, e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Backspace" && !value[p.key]) refs.current[i - 1]?.focus();
+                  }}
+                  onPaste={paste}
+                  inputMode="numeric"
+                  autoComplete={i === 0 ? "bday-day" : i === 1 ? "bday-month" : "bday-year"}
+                  placeholder={p.placeholder}
+                  aria-invalid={!!error}
+                  aria-describedby={error ? "dob-error" : undefined}
+                  className={`field h-[60px] px-0 text-center text-[20px] tracking-[0.14em] ${p.max === 4 ? "w-[108px]" : "w-[72px]"}`}
+                />
+                <span className="eyebrow mt-2 text-[10px] text-white/60">{p.label}</span>
+              </label>
             ))}
           </div>
           <p id="dob-error" aria-live="polite" className="mt-3 min-h-[20px] text-[14px] text-alert">
@@ -114,11 +112,7 @@ export function AgeGate() {
           </p>
         </fieldset>
 
-        <button
-          type="submit"
-          disabled={busy}
-          className="mt-4 h-14 w-full rounded-md bg-gold font-label text-[16px] font-semibold uppercase tracking-[0.2em] text-deep transition hover:bg-[#d6b46d] focus:outline-none focus-visible:ring-2 focus-visible:ring-cream disabled:opacity-70"
-        >
+        <button type="submit" disabled={busy} className="btn mt-3">
           {copy.ageGate.button}
         </button>
       </form>

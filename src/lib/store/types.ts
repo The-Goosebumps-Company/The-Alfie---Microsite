@@ -1,4 +1,4 @@
-import type { FanType, Sport } from "@/config";
+import type { FanType } from "@/config";
 
 export type NewRegistration = {
   firstName: string;
@@ -6,9 +6,8 @@ export type NewRegistration = {
   email: string;
   mobile: string | null;
   dateOfBirth: string;
-  sports: Sport[];
+  sports: string[];
   fanType: FanType | null;
-  fanAudience: string | null;
   emailOptIn: boolean;
   whatsappOptIn: boolean;
   consentTextVersion: string;

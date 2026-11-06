@@ -9,6 +9,8 @@ export const config = {
   competitionTermsUrl: "/terms#call-ups", // placeholder; needed if The Bench becomes a draw
   // Bump this whenever the opt-in or privacy wording in copy.ts changes.
   consentTextVersion: "2026-11-06.v1",
+  // Bump when the ticket design changes so browsers fetch the new image instead of a cached one.
+  ticketVersion: 3,
   minimumAge: 18,
   ageCookieDays: 30,
   // Per IP. Street scans share mobile-network IPs, so keep this generous.
@@ -16,19 +18,19 @@ export const config = {
   defaultSource: "direct",
 } as const;
 
-export const SPORTS = ["Rugby", "Football", "F1", "Cricket", "Golf", "Tennis", "Padel"] as const;
-export type Sport = (typeof SPORTS)[number];
+// Suggestions in the sports picker, most-followed first. Guests can also add their own.
+export const SPORTS = [
+  "Rugby", "Football", "Cricket", "F1", "Golf", "Tennis", "Padel", "Boxing", "UFC / MMA", "Basketball",
+  "NFL", "Athletics", "Cycling", "Horse racing", "MotoGP", "Netball", "Hockey", "Swimming", "Surfing",
+  "Polo", "Sailing", "Squash", "Darts", "Snooker", "Esports", "Baseball", "Ice hockey", "Volleyball",
+  "Triathlon", "Rowing",
+];
+export const MAX_SPORTS = 12;
+export const MAX_SPORT_LENGTH = 30;
 
-export const FAN_TYPES = ["analyst", "superfan", "host", "guest"] as const;
+// The four audiences from Grid's brand deck ("The elevated sports fan").
+export const FAN_TYPES = ["connoisseur", "passionate", "social", "uninitiated"] as const;
 export type FanType = (typeof FAN_TYPES)[number];
-
-// Internal mapping to Grid's brand-deck audiences. Stored, never shown.
-export const FAN_AUDIENCE: Record<FanType, string> = {
-  analyst: "Connoisseur",
-  superfan: "Passionate Fan",
-  host: "Social Architect",
-  guest: "Uninitiated Guest",
-};
 
 export const COUNTRY_CODES = [
   { code: "+27", label: "ZA +27" },

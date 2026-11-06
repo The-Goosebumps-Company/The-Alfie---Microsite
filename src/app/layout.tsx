@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { bodyFont, headingFont, labelFont } from "@/fonts";
+import { bodyFont, headingFont, scriptFont } from "@/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -8,14 +8,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#072a21",
+  themeColor: "#F6F4EE",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-ZA" className={`${headingFont.variable} ${labelFont.variable} ${bodyFont.variable}`}>
+    <html lang="en-ZA" className={`${scriptFont.variable} ${headingFont.variable} ${bodyFont.variable}`}>
       <body>{children}</body>
     </html>
   );

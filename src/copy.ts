@@ -4,13 +4,15 @@ import { config } from "./config";
 
 export const copy = {
   ageGate: {
-    eyebrow: "THE ALFIE · BY HEINEKEN",
     heading: "Before you warm up",
     body: "The Alfie is for guests aged 18 and over. Enter your date of birth.",
     day: "DD",
     month: "MM",
     year: "YYYY",
-    button: "Enter",
+    dayLabel: "Day",
+    monthLabel: "Month",
+    yearLabel: "Year",
+    button: "Take your seat",
     invalid: "Enter a real date of birth.",
     underage: "Sorry, you need to be 18 or older to visit this site.",
   },
@@ -19,7 +21,6 @@ export const copy = {
     headline: "Get on the bench.",
     subhead:
       "Opening night is coming. Join The Bench and you could get the call-up to take the field when The Alfie opens its doors.",
-    small: "Takes 30 seconds. Free to join.",
   },
   form: {
     firstName: "First name",
@@ -30,6 +31,10 @@ export const copy = {
     mobilePlaceholder: "082 123 4567",
     countryCode: "Country code",
     sports: "Sports you follow",
+    sportsPlaceholder: "Search or add a sport",
+    sportsAdd: (sport: string) => `Add “${sport}”`,
+    sportsRemove: (sport: string) => `Remove ${sport}`,
+    sportsFull: "That’s a full squad.",
     fanType: "What kind of fan are you? (optional)",
     emailOptIn: "Keep me in the game: email me Alfie news, invites and first access to bookings.",
     whatsappOptIn: "WhatsApp me updates too.",
@@ -41,11 +46,15 @@ export const copy = {
     button: "Join the bench",
     loading: "Warming up…",
   },
+  // Titles from the brand deck's target audience page; lines rewritten for guests.
+  fanSection: {
+    heading: "The elevated sports fan",
+  },
   fanTypes: {
-    analyst: { title: "The Analyst", line: "Every stat, every play." },
-    superfan: { title: "The Superfan", line: "Lives and breathes matchday." },
-    host: { title: "The Host", line: "Brings the whole crew." },
-    guest: { title: "The Guest", line: "Here for the vibe." },
+    connoisseur: { title: "The Connoisseur", line: "A business dinner and a match night, equally.", ticket: "Connoisseur" },
+    passionate: { title: "The Passionate Fan", line: "Knows every stat and every vintage.", ticket: "Passionate Fan" },
+    social: { title: "The Social Architect", line: "Organises the group, arrival to last orders.", ticket: "Social Architect" },
+    uninitiated: { title: "The Uninitiated Luxury Guest", line: "Here for the table. Staying for the energy.", ticket: "Luxury Guest" },
   },
   success: {
     heading: (firstName: string) => `You're on the bench, ${firstName}.`,
@@ -66,13 +75,15 @@ export const copy = {
     tooMany: "Too many tries from this connection. Give it a few minutes.",
   },
   footer: {
+    partners: "In partnership with Heineken, Marble Hospitality and G&G The Goosebumps Company",
     responsible: "Enjoy Heineken Responsibly. Not for sale to persons under the age of 18.",
     privacy: "Privacy Policy",
     terms: "Terms",
   },
   ticket: {
-    brand: "THE ALFIE · BY HEINEKEN",
-    event: `OPENING NIGHT · ${config.openingMonth.toUpperCase()}`,
+    byline: "BY HEINEKEN", // sits beside The Alfie wordmark
+    event: "Opening Night",
+    eventDate: config.openingMonth.toUpperCase(),
     gate: "GATE",
     gateValue: "High Street",
     stand: "STAND",

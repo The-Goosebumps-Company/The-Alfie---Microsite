@@ -3,12 +3,12 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-type Weight = 400 | 500 | 600;
+type Weight = 400 | 500;
 const FILES: { name: string; weight: Weight; file: string }[] = [
   { name: "Cormorant Garamond", weight: 500, file: "cormorant-500.ttf" },
-  { name: "Oswald", weight: 500, file: "oswald-500.ttf" },
-  { name: "Oswald", weight: 600, file: "oswald-600.ttf" },
   { name: "Jost", weight: 400, file: "jost-400.ttf" },
+  { name: "Jost", weight: 500, file: "jost-500.ttf" },
+  { name: "Pinyon Script", weight: 400, file: "pinyon-400.ttf" },
 ];
 
 const DIR = path.join(process.cwd(), "src", "fonts", "ticket");

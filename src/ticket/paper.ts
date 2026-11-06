@@ -1,5 +1,5 @@
 // The ticket's paper as one SVG: cream stock, guilloche security lines, a faint pitch
-// watermark, gold rules, the perforation with notches, the red star and a decorative barcode.
+// watermark, green rules, the perforation with notches and a decorative barcode.
 // Drawn on a 600 × 240 grid; text is laid over it in Ticket.tsx.
 
 export const W = 600;
@@ -7,22 +7,12 @@ export const H = 240;
 export const STUB_X = 450;
 const NOTCH = 11;
 
-export const INK = "#072a21";
-export const GOLD = "#C9A45C";
-export const GOLD_INK = "#86672B"; // gold dark enough to read as text on cream
+// Alfie palette from Grid's brand deck.
+export const INK = "#003a2a"; // forest: names, values, guilloche
+export const ACCENT = "#005a42"; // emerald: labels, rules, perforation
 export const PAPER = "#F0E8D4";
-const RED = "#D7262E";
 
 const f = (n: number) => n.toFixed(1);
-
-function starPath(cx: number, cy: number, r: number): string {
-  const pts = Array.from({ length: 10 }, (_, i) => {
-    const rad = i % 2 ? r * 0.4 : r;
-    const a = -Math.PI / 2 + (i * Math.PI) / 5;
-    return `${f(cx + rad * Math.cos(a))},${f(cy + rad * Math.sin(a))}`;
-  });
-  return `M${pts.join("L")}Z`;
-}
 
 function wave(y0: number, phase: number): string {
   const pts: string[] = [];
@@ -84,11 +74,10 @@ export function paperSvg(squadNumber: number): string {
       ${guilloche()}
       ${pitchWatermark()}
     </g>
-    <rect x="7" y="7" width="${W - 14}" height="${H - 14}" rx="6" fill="none" stroke="${GOLD}" stroke-width="0.9"/>
-    <line x1="30" y1="114" x2="420" y2="114" stroke="${GOLD}" stroke-width="0.9"/>
-    <line x1="30" y1="170" x2="420" y2="170" stroke="${GOLD}" stroke-width="0.9"/>
-    <line x1="${STUB_X}" y1="${NOTCH + 6}" x2="${STUB_X}" y2="${H - NOTCH - 6}" stroke="${GOLD}" stroke-width="1.3" stroke-dasharray="4 4"/>
-    <path d="${starPath(36, 29, 6.5)}" fill="${RED}"/>
+    <rect x="7" y="7" width="${W - 14}" height="${H - 14}" rx="6" fill="none" stroke="${ACCENT}" stroke-opacity="0.45" stroke-width="0.9"/>
+    <line x1="30" y1="114" x2="420" y2="114" stroke="${ACCENT}" stroke-opacity="0.5" stroke-width="0.8"/>
+    <line x1="30" y1="170" x2="420" y2="170" stroke="${ACCENT}" stroke-opacity="0.5" stroke-width="0.8"/>
+    <line x1="${STUB_X}" y1="${NOTCH + 6}" x2="${STUB_X}" y2="${H - NOTCH - 6}" stroke="${ACCENT}" stroke-opacity="0.6" stroke-width="1.2" stroke-dasharray="4 4"/>
     ${barcode(squadNumber)}
   </g>
 </svg>`;

@@ -12,7 +12,6 @@ type Row = {
   date_of_birth: string;
   sports: string[];
   fan_type: Registration["fanType"];
-  fan_audience: string | null;
   email_opt_in: boolean;
   whatsapp_opt_in: boolean;
   consent_text_version: string;
@@ -31,9 +30,8 @@ const fromRow = (r: Row): Registration => ({
   email: r.email,
   mobile: r.mobile,
   dateOfBirth: r.date_of_birth,
-  sports: r.sports as Registration["sports"],
+  sports: r.sports,
   fanType: r.fan_type,
-  fanAudience: r.fan_audience,
   emailOptIn: r.email_opt_in,
   whatsappOptIn: r.whatsapp_opt_in,
   consentTextVersion: r.consent_text_version,
@@ -64,7 +62,6 @@ export const supabaseStore: RegistrationStore = {
         date_of_birth: reg.dateOfBirth,
         sports: reg.sports,
         fan_type: reg.fanType,
-        fan_audience: reg.fanAudience,
         email_opt_in: reg.emailOptIn,
         whatsapp_opt_in: reg.whatsappOptIn,
         consent_text_version: reg.consentTextVersion,

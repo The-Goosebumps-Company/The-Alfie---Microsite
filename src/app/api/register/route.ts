@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { FAN_AUDIENCE, config } from "@/config";
+import { config } from "@/config";
 import { AGE_COOKIE, readAgeCookie } from "@/lib/ageCookie";
 import { allow, clientIp } from "@/lib/rateLimit";
 import { cleanSource, cleanTag } from "@/lib/source";
@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
     const { registration, existing } = await getStore().create({
       ...data,
       dateOfBirth: dob,
-      fanAudience: data.fanType ? FAN_AUDIENCE[data.fanType] : null,
       consentTextVersion: config.consentTextVersion,
       consentAt: new Date().toISOString(),
       source: cleanSource(body.src),

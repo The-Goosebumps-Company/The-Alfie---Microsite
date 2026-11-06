@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
-  // The ticket route reads its fonts from disk; make sure they ship with it.
-  outputFileTracingIncludes: { "/api/ticket/[id]": ["./src/fonts/ticket/**"] },
+  devIndicators: false, // keeps the Next badge off the design previews
+  // The ticket route reads its fonts and wordmark from disk; make sure they ship with it.
+  outputFileTracingIncludes: { "/api/ticket/[id]": ["./src/fonts/ticket/**", "./src/ticket/alfie-wordmark.png"] },
   // The QR points at /bench. Query strings (?src=, ?box=) are carried through.
   async redirects() {
     return [

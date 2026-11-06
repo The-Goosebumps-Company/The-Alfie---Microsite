@@ -2,25 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
-}
-
 body {
-  background: #072a21;
-  color: #f0e8d4;
+  background: #f6f4ee;
+  color: #031c1f;
   font-family: var(--font-body), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Mow stripes with a darker touchline vignette. */
-.pitch {
-  background-color: #0a3328;
-  background-image:
-    radial-gradient(120% 80% at 50% 30%, transparent 35%, rgba(7, 42, 33, 0.9) 100%),
-    repeating-linear-gradient(90deg, #0a3328 0 56px, #0c3a2d 56px 112px);
-  background-attachment: fixed;
+@layer components {
+  /* Small spaced capitals, as on the deck's page titles. */
+  .eyebrow {
+    @apply font-body text-[11px] font-medium uppercase tracking-[0.26em];
+  }
+
+  /* The green block: the deck's signature gradient with its star lattice, very faint. */
+  .panel {
+    @apply relative overflow-hidden rounded-[22px] text-white;
+    background: linear-gradient(32deg, #031c1f 0%, #003a2a 42%, #005a42 78%, #006e37 100%);
+    box-shadow: 0 30px 60px -28px rgba(3, 28, 31, 0.55);
+  }
+  .panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='%23fff' stroke-width='0.7'%3E%3Cpath d='M0 0L96 96M96 0L0 96'/%3E%3C/g%3E%3Cg fill='%23fff'%3E%3Cpath id='s' d='M48 9.5l1.18 3.63h3.82l-3.09 2.24 1.18 3.63L48 16.76 44.91 19l1.18-3.63-3.09-2.24h3.82z'/%3E%3Cuse href='%23s' y='72'/%3E%3Cuse href='%23s' x='-48' y='36'/%3E%3Cuse href='%23s' x='48' y='36'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 96px 96px;
+  }
+  .panel > * {
+    position: relative;
+  }
+
+  .field-label {
+    @apply mb-2 block font-body text-[11px] font-medium uppercase tracking-[0.2em] text-mint;
+  }
+  .field {
+    @apply h-[52px] w-full rounded-[10px] border border-white/25 bg-white/[0.06] px-4 text-[17px] text-white placeholder:text-white/40 focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30;
+  }
+  .field[aria-invalid="true"] {
+    @apply border-alert;
+  }
+
+  /* Ivory button on the green panel. */
+  .btn {
+    @apply flex h-14 w-full items-center justify-center rounded-full bg-ivory font-body text-[14px] font-medium uppercase tracking-[0.24em] text-forest transition hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-forest disabled:opacity-70;
+  }
+
+  .script-heading {
+    @apply font-script font-normal leading-[1.05];
+  }
 }
 
 .check {
@@ -28,8 +60,9 @@ body {
   -webkit-appearance: none;
 }
 .check:checked {
-  background-color: #c9a45c;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23072a21' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+  background-color: #9fd08b;
+  border-color: #9fd08b;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23031c1f' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
   background-size: 18px;
   background-position: center;
   background-repeat: no-repeat;

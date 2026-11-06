@@ -1,5 +1,6 @@
 // Form validation shared by the browser (instant feedback) and the server (the real check).
-import { COUNTRY_CODES, FAN_TYPES, SPORTS, type FanType, type Sport } from "@/config";
+import { COUNTRY_CODES, FAN_TYPES, MAX_SPORTS, type FanType } from "@/config";
+import { cleanSports } from "./sports";
 import { toE164 } from "./phone";
 
 export type FormInput = {
@@ -23,7 +24,7 @@ export type CleanForm = {
   surname: string;
   email: string;
   mobile: string | null;
-  sports: Sport[];
+  sports: string[];
   fanType: FanType | null;
   emailOptIn: boolean;
   whatsappOptIn: boolean;
@@ -58,9 +59,7 @@ export function validateForm(input: Partial<FormInput>): { errors: Errors; data?
     if (!mobile) errors.mobile = "mobile";
   }
 
-  const sports = Array.isArray(input.sports)
-    ? SPORTS.filter((s) => input.sports!.includes(s))
-    : [];
+  const sports = cleanSports(Array.isArray(input.sports) ? input.sports : []).slice(0, MAX_SPORTS);
   const fanType = FAN_TYPES.find((f) => f === input.fanType) ?? null;
 
   if (Object.keys(errors).length) return { errors };

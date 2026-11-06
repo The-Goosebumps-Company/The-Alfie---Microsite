@@ -3,23 +3,19 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { COUNTRY_CODES, FAN_TYPES, SPORTS, config, type FanType } from "@/config";
+import { COUNTRY_CODES, FAN_TYPES, config, type FanType } from "@/config";
 import { copy } from "@/copy";
 import { suggestEmail } from "@/lib/emailTypos";
 import { validateForm, type Errors, type FieldKey, type FormInput } from "@/lib/validate";
 import { Hero } from "./Hero";
+import { SportsPicker } from "./SportsPicker";
 import { Success, type TicketResult } from "./Success";
 
 const ORDER: FieldKey[] = ["firstName", "surname", "email", "mobile"];
 
-const inputClass = (bad: boolean) =>
-  `h-[52px] w-full rounded-md border bg-deep/80 px-4 text-[17px] text-cream placeholder:text-muted/45 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40 ${
-    bad ? "border-alert" : "border-gold/40"
-  }`;
-
 function Label({ htmlFor, children }: { htmlFor?: string; children: React.ReactNode }) {
   return (
-    <label htmlFor={htmlFor} className="mb-2 block font-label text-[13px] font-medium uppercase tracking-[0.14em] text-gold">
+    <label htmlFor={htmlFor} className="field-label">
       {children}
     </label>
   );
@@ -77,9 +73,6 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
     if (first) formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
   };
 
-  const toggleSport = (s: string) =>
-    set("sports", v.sports.includes(s) ? v.sports.filter((x) => x !== s) : [...v.sports, s]);
-
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setServerError(null);
@@ -125,21 +118,14 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
     <>
       <Hero />
 
-      {/* The dugout: the form sits along the touchline. */}
-      <form
-        ref={formRef}
-        onSubmit={submit}
-        noValidate
-        className="relative -mx-3 mt-10 rounded-t-[28px] border border-b-0 border-gold/45 bg-deep/85 px-5 pb-7 pt-8 shadow-[0_-12px_40px_rgba(0,0,0,0.25)] backdrop-blur-[2px]"
-      >
-        <span aria-hidden className="absolute inset-x-8 top-0 h-[2px] -translate-y-px bg-gold" />
-
-        <div className="grid gap-5">
+      {/* The green block, in the deck's signature gradient. */}
+      <form ref={formRef} onSubmit={submit} noValidate className="panel mt-7 px-5 pb-8 pt-7">
+        <div className="grid gap-6">
           <div>
             <Label htmlFor="firstName">{copy.form.firstName}</Label>
             <input id="firstName" name="firstName" autoComplete="given-name" value={v.firstName}
               onChange={(e) => set("firstName", e.target.value)} aria-invalid={!!errors.firstName}
-              aria-describedby="firstName-error" className={inputClass(!!errors.firstName)} />
+              aria-describedby="firstName-error" className="field" />
             <ErrorText id="firstName-error" error={message("firstName")} />
           </div>
 
@@ -147,7 +133,7 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
             <Label htmlFor="surname">{copy.form.surname}</Label>
             <input id="surname" name="surname" autoComplete="family-name" value={v.surname}
               onChange={(e) => set("surname", e.target.value)} aria-invalid={!!errors.surname}
-              aria-describedby="surname-error" className={inputClass(!!errors.surname)} />
+              aria-describedby="surname-error" className="field" />
             <ErrorText id="surname-error" error={message("surname")} />
           </div>
 
@@ -157,11 +143,11 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
               autoCapitalize="none" spellCheck={false} placeholder={copy.form.emailPlaceholder}
               value={v.email} onChange={(e) => { set("email", e.target.value); setSuggestion(null); }}
               onBlur={() => setSuggestion(suggestEmail(v.email.trim()))} aria-invalid={!!errors.email}
-              aria-describedby="email-error" className={inputClass(!!errors.email)} />
+              aria-describedby="email-error" className="field" />
             <ErrorText id="email-error" error={message("email") ?? notice} />
             {suggestion && !errors.email && (
               <button type="button" onClick={() => { set("email", suggestion); setSuggestion(null); }}
-                className="mt-1 min-h-11 text-left text-[15px] text-cream underline decoration-gold underline-offset-4">
+                className="mt-1 min-h-11 text-left text-[15px] text-white underline decoration-mint underline-offset-4">
                 {copy.errors.suggestion(suggestion)}
               </button>
             )}
@@ -172,46 +158,43 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
             <div className="flex gap-2">
               <select aria-label={copy.form.countryCode} value={v.countryCode}
                 onChange={(e) => set("countryCode", e.target.value)}
-                className="h-[52px] w-[104px] shrink-0 rounded-md border border-gold/40 bg-deep/80 px-2 font-label text-[15px] text-cream focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40">
+                className="field w-[104px] shrink-0 px-2 text-[15px] [&>option]:text-ink">
                 {COUNTRY_CODES.map((c) => <option key={c.code} value={c.code}>{c.label}</option>)}
               </select>
               <input id="mobile" name="mobile" type="tel" inputMode="tel" autoComplete="tel-national"
                 placeholder={copy.form.mobilePlaceholder} value={v.mobile}
                 onChange={(e) => set("mobile", e.target.value)} aria-invalid={!!errors.mobile}
-                aria-describedby="mobile-error" className={inputClass(!!errors.mobile)} />
+                aria-describedby="mobile-error" className="field" />
             </div>
             <ErrorText id="mobile-error" error={message("mobile")} />
           </div>
 
-          <fieldset>
-            <legend className="mb-2 font-label text-[13px] font-medium uppercase tracking-[0.14em] text-gold">{copy.form.sports}</legend>
-            <div className="flex flex-wrap gap-2">
-              {SPORTS.map((s) => {
-                const on = v.sports.includes(s);
-                return (
-                  <button key={s} type="button" aria-pressed={on} onClick={() => toggleSport(s)}
-                    className={`h-12 rounded-full border px-5 font-label text-[15px] font-medium tracking-[0.06em] transition ${
-                      on ? "border-gold bg-gold text-deep" : "border-gold/40 text-cream hover:border-gold"
-                    }`}>
-                    {s}
-                  </button>
-                );
-              })}
-            </div>
-          </fieldset>
+          <SportsPicker value={v.sports} onChange={(next) => set("sports", next)} />
 
+          {/* Laid out like the deck's "The elevated sports fan" page. */}
           <fieldset>
-            <legend className="mb-2 font-label text-[13px] font-medium uppercase tracking-[0.14em] text-gold">{copy.form.fanType}</legend>
-            <div className="grid grid-cols-2 gap-2">
-              {FAN_TYPES.map((f: FanType) => {
+            {/* A legend must be the fieldset's first child, so the script heading lives inside it. */}
+            <legend className="w-full">
+              <span aria-hidden className="script-heading mb-1 block text-[34px] text-white">{copy.fanSection.heading}</span>
+              <span className="field-label">{copy.form.fanType}</span>
+            </legend>
+            <div className="grid gap-2">
+              {FAN_TYPES.map((f: FanType, i) => {
                 const on = v.fanType === f;
                 return (
                   <button key={f} type="button" aria-pressed={on} onClick={() => set("fanType", on ? null : f)}
-                    className={`flex min-h-[84px] flex-col justify-start rounded-lg border px-3 py-3 text-left transition ${
-                      on ? "border-gold bg-gold/15" : "border-gold/30 hover:border-gold/70"
+                    className={`flex items-start gap-3 rounded-[12px] border px-4 py-3.5 text-left transition ${
+                      on ? "border-mint bg-white/10" : "border-white/25 hover:border-white/60"
                     }`}>
-                    <span className="block font-heading text-[21px] leading-tight text-cream">{copy.fanTypes[f].title}</span>
-                    <span className="mt-1 block text-[13px] leading-snug text-muted">{copy.fanTypes[f].line}</span>
+                    <span aria-hidden className={`w-6 shrink-0 font-script text-[26px] leading-none ${on ? "text-mint" : "text-white/80"}`}>
+                      {i + 1}.
+                    </span>
+                    <span>
+                      <span className="block font-heading text-[17px] uppercase leading-tight tracking-[0.08em] text-white">
+                        {copy.fanTypes[f].title}
+                      </span>
+                      <span className={`mt-1 block text-[14px] leading-snug ${on ? "text-mint" : "text-white/70"}`}>{copy.fanTypes[f].line}</span>
+                    </span>
                   </button>
                 );
               })}
@@ -221,14 +204,14 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
           <div className="grid gap-1">
             <label className="flex min-h-12 cursor-pointer items-start gap-3 py-1">
               <input type="checkbox" checked={v.emailOptIn} onChange={(e) => set("emailOptIn", e.target.checked)}
-                className="check mt-0.5 h-6 w-6 shrink-0 cursor-pointer rounded border border-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" />
-              <span className="text-[15px] leading-snug text-cream">{copy.form.emailOptIn}</span>
+                className="check mt-0.5 h-6 w-6 shrink-0 cursor-pointer rounded-[6px] border border-white/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-mint/60" />
+              <span className="text-[15px] leading-snug text-white/90">{copy.form.emailOptIn}</span>
             </label>
             {hasMobile && (
               <label className="flex min-h-12 cursor-pointer items-start gap-3 py-1">
                 <input type="checkbox" checked={v.whatsappOptIn} onChange={(e) => set("whatsappOptIn", e.target.checked)}
-                  className="check mt-0.5 h-6 w-6 shrink-0 cursor-pointer rounded border border-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" />
-                <span className="text-[15px] leading-snug text-cream">{copy.form.whatsappOptIn}</span>
+                  className="check mt-0.5 h-6 w-6 shrink-0 cursor-pointer rounded-[6px] border border-white/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-mint/60" />
+                <span className="text-[15px] leading-snug text-white/90">{copy.form.whatsappOptIn}</span>
               </label>
             )}
           </div>
@@ -238,18 +221,17 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
             <label>Website<input ref={honeypot} name="website" tabIndex={-1} autoComplete="off" /></label>
           </div>
 
-          <p className="text-[13px] leading-relaxed text-muted">
+          <p className="text-[13px] leading-relaxed text-white/70">
             {copy.form.privacyBefore}
-            <Link href={config.privacyUrl} className="text-cream underline underline-offset-2">{copy.form.privacyLink}</Link>
+            <Link href={config.privacyUrl} className="text-white underline decoration-mint/60 underline-offset-2">{copy.form.privacyLink}</Link>
             {copy.form.privacyAnd}
-            <Link href={config.termsUrl} className="text-cream underline underline-offset-2">{copy.form.termsLink}</Link>
+            <Link href={config.termsUrl} className="text-white underline decoration-mint/60 underline-offset-2">{copy.form.termsLink}</Link>
             {copy.form.privacyAfter}
           </p>
 
           {serverError && <p role="alert" className="text-[14px] text-alert">{serverError}</p>}
 
-          <button type="submit" disabled={busy} aria-busy={busy}
-            className="h-14 w-full rounded-md bg-gold font-label text-[16px] font-semibold uppercase tracking-[0.2em] text-deep transition hover:bg-[#d6b46d] focus:outline-none focus-visible:ring-2 focus-visible:ring-cream disabled:opacity-75">
+          <button type="submit" disabled={busy} aria-busy={busy} className="btn">
             {busy ? copy.form.loading : copy.form.button}
           </button>
         </div>
