@@ -26,7 +26,7 @@ function Partners() {
       {PARTNERS.map((p, i) => (
         <span key={p.src} className="flex items-center gap-3.5">
           {i > 0 && <Cross />}
-          <Image src={asset(p.src)} alt={p.alt} width={p.width} height={p.height} className={`w-auto ${p.className}`} />
+          <Image src={asset(p.src)} alt={p.alt} width={p.width} height={p.height} loading="eager" className={`w-auto ${p.className}`} />
         </span>
       ))}
     </div>
