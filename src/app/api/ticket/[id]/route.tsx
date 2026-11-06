@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { copy } from "@/copy";
 import { SAMPLE, SAMPLE_TICKET_ID, isDev } from "@/lib/devPreview";
+import { isPreviewMode } from "@/lib/previewMode";
 import { formatSquad } from "@/lib/squad";
 import { getStore } from "@/lib/store";
 import { Ticket } from "@/ticket/Ticket";
@@ -11,7 +12,8 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const preview = isDev && id === SAMPLE_TICKET_ID; // sample ticket for the /dev/screens board
-  if (!preview && !UUID.test(id)) return new Response("Not found", { status: 404 });
+  // Preview-mode ids are signed tokens, checked by the preview store instead.
+  if (!preview && !isPreviewMode && !UUID.test(id)) return new Response("Not found", { status: 404 });
 
   const reg = preview ? SAMPLE : await getStore().get(id);
   if (!reg) return new Response("Not found", { status: 404 });

@@ -2,19 +2,22 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { config } from "@/config";
 import { ageOn } from "./dates";
+import { isPreviewMode } from "./previewMode";
 
 export const AGE_COOKIE = "alfie_age";
 export const BLOCK_COOKIE = "alfie_u18";
 
-function secret(): string {
+/** Signing key for the age cookie and preview tickets. Launch must set AGE_COOKIE_SECRET. */
+export function serverSecret(): string {
   const s = process.env.AGE_COOKIE_SECRET;
   if (s) return s;
+  if (isPreviewMode) return "preview-mode-secret"; // nothing real is protected in preview
   if (process.env.NODE_ENV === "production") throw new Error("AGE_COOKIE_SECRET is not set");
   return "dev-only-secret";
 }
 
-function sign(value: string): string {
-  return createHmac("sha256", secret()).update(value).digest("base64url");
+export function sign(value: string): string {
+  return createHmac("sha256", serverSecret()).update(value).digest("base64url");
 }
 
 export function makeAgeCookie(isoDob: string): string {

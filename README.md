@@ -28,10 +28,17 @@ Open http://localhost:3000/bench?src=hoarding. Without Supabase keys, sign-ups s
 
 Routes: `/bench` (the QR target), `/` and `/register` redirect there keeping `?src=` and `?box=`; `/privacy` and `/terms` are placeholders.
 
+## Team preview (Vercel, no database)
+
+Import the repo at vercel.com/new and add one environment variable: `PREVIEW_MODE=1`.
+The whole flow works (age gate, form, success, ticket download) but nothing is saved: the
+ticket's details travel in its link as a signed token. A "Preview" tag shows and search
+engines are told not to index it. `/dev/*` design pages are local only.
+
 ## Going live (Vercel + Supabase)
 
 1. Create a Supabase project and run `supabase/migrations/0001_registrations.sql` in its SQL editor.
-2. Import the repo into Vercel and set the env vars from `.env.example`:
+2. In Vercel, remove `PREVIEW_MODE` and set the env vars from `.env.example`:
    `AGE_COOKIE_SECRET` (long random string), `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`.
 3. Point `thealfie.co.za` at Vercel. The QR should open `https://thealfie.co.za/bench?src=hoarding`.
 
