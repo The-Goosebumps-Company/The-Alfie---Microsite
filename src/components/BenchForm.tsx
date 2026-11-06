@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { COUNTRY_CODES, FAN_TYPES, config, type FanType } from "@/config";
 import { copy } from "@/copy";
+import { register } from "@/lib/client/api";
 import { suggestEmail } from "@/lib/emailTypos";
 import { validateForm, type Errors, type FieldKey, type FormInput } from "@/lib/validate";
 import { Hero } from "./Hero";
@@ -86,14 +87,9 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
 
     setBusy(true);
     try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...v, src, box, website: honeypot.current?.value ?? "" }),
-      });
-      const json = await res.json().catch(() => ({ ok: false, error: "server" }));
+      const json = await register({ ...v, src, box, website: honeypot.current?.value ?? "" });
       if (json.ok && json.ticket) {
-        setResult({ ticket: json.ticket, existing: json.existing });
+        setResult({ ticket: json.ticket, existing: !!json.existing });
         window.scrollTo({ top: 0 });
       } else if (json.ok) {
         setNotice(copy.errors.already);

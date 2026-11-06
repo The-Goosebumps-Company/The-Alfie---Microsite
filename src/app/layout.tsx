@@ -20,12 +20,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-ZA" className={`${scriptFont.variable} ${headingFont.variable} ${bodyFont.variable}`}>
       <body>
-        {children}
         {isPreviewMode && (
-          <div className="pointer-events-none fixed right-3 top-3 z-50 rounded-full bg-ink/85 px-3 py-1.5 font-body text-[10px] font-medium uppercase tracking-[0.18em] text-mint">
+          <div className="bg-ink py-2 text-center font-body text-[10px] font-medium uppercase tracking-[0.18em] text-mint">
             Preview · sign-ups aren’t saved
           </div>
         )}
+        {children}
       </body>
     </html>
   );

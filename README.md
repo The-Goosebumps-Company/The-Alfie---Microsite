@@ -28,12 +28,17 @@ Open http://localhost:3000/bench?src=hoarding. Without Supabase keys, sign-ups s
 
 Routes: `/bench` (the QR target), `/` and `/register` redirect there keeping `?src=` and `?box=`; `/privacy` and `/terms` are placeholders.
 
-## Team preview (Vercel, no database)
+## Team preview (GitHub Pages demo)
 
-Import the repo at vercel.com/new and add one environment variable: `PREVIEW_MODE=1`.
-The whole flow works (age gate, form, success, ticket download) but nothing is saved: the
-ticket's details travel in its link as a signed token. A "Preview" tag shows and search
-engines are told not to index it. `/dev/*` design pages are local only.
+Every push to `main` runs `.github/workflows/pages.yml`, which builds a static demo
+(`npm run build:demo`, see `scripts/build-demo.mjs`) and publishes it to GitHub Pages:
+https://the-goosebumps-company.github.io/The-Alfie---Microsite/
+
+The demo has no server: the age check, sign-up and ticket (including the download) run in
+the browser, and nothing is saved. A "Preview" bar shows and search engines are told not
+to index it. One-off setup: repo Settings → Pages → Source: **GitHub Actions**.
+
+`PREVIEW_MODE=1` does the same "nothing saved" trick on a real server host (e.g. Vercel).
 
 ## Going live (Vercel + Supabase)
 

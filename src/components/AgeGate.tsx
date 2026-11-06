@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { copy } from "@/copy";
+import { checkAge } from "@/lib/client/api";
 import { toIsoDate } from "@/lib/dates";
 import { Logo } from "./Shell";
 import { Underage } from "./Underage";
@@ -14,7 +15,8 @@ const PARTS: { key: Part; max: number; placeholder: string; label: string }[] = 
   { key: "year", max: 4, placeholder: copy.ageGate.year, label: copy.ageGate.yearLabel },
 ];
 
-export function AgeGate() {
+// onPassed: the static demo swaps screens itself; normally the server page re-renders.
+export function AgeGate({ onPassed }: { onPassed?: () => void }) {
   const router = useRouter();
   const [value, setValue] = useState<Record<Part, string>>({ day: "", month: "", year: "" });
   const [error, setError] = useState<string | null>(null);
@@ -58,13 +60,8 @@ export function AgeGate() {
     }
     setBusy(true);
     try {
-      const res = await fetch("/api/age", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(value),
-      });
-      const json = await res.json();
-      if (json.ok) return router.refresh();
+      const json = await checkAge(value);
+      if (json.ok) return onPassed ? onPassed() : router.refresh();
       if (json.underage) return setBlocked(true);
       setError(copy.ageGate.invalid);
     } catch {

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { config } from "@/config";
 import { copy } from "@/copy";
+import { asset } from "@/lib/staticDemo";
 
 // Confirmed partner lockup, shown under The Alfie: Heineken ★ × Marble Hospitality × G&G,
 // in forest green on the ivory page. Heights are tuned by eye so the three carry equal weight.
@@ -25,7 +26,7 @@ function Partners() {
       {PARTNERS.map((p, i) => (
         <span key={p.src} className="flex items-center gap-3.5">
           {i > 0 && <Cross />}
-          <Image src={p.src} alt={p.alt} width={p.width} height={p.height} className={`w-auto ${p.className}`} />
+          <Image src={asset(p.src)} alt={p.alt} width={p.width} height={p.height} className={`w-auto ${p.className}`} />
         </span>
       ))}
     </div>
@@ -54,7 +55,7 @@ export function Logo({ className = "w-[118px]" }: { className?: string }) {
   return (
     <div>
       <Image
-        src="/alfie-lockup-green.png"
+        src={asset("/alfie-lockup-green.png")}
         alt="The Alfie"
         width={704}
         height={520}
