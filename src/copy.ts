@@ -74,6 +74,7 @@ export const copy = {
     ],
     disclaimer: "Joining The Bench doesn’t guarantee a booking. Call-ups are made by The Alfie.",
     follow: `Follow ${config.socialHandle}`,
+    restart: "Wrong details? Start again",
   },
   errors: {
     required: "We'll need this to put you on the bench.",

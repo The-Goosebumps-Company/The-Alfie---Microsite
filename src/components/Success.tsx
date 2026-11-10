@@ -8,7 +8,16 @@ import { Logo } from "./Shell";
 
 export type Reserve = { number: string; firstName: string };
 
-export function Success({ reserve, existing }: { reserve: Reserve; existing: boolean }) {
+function Star() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 text-star">
+      <path fill="currentColor" d="M12 2.5l2.9 6.2 6.8.8-5 4.7 1.3 6.7L12 17.6l-6 3.3 1.3-6.7-5-4.7 6.8-.8z" />
+    </svg>
+  );
+}
+
+// onRestart returns to the form with what they typed still filled in, so a typo is a quick fix.
+export function Success({ reserve, existing, onRestart }: { reserve: Reserve; existing: boolean; onRestart?: () => void }) {
   const s = copy.success;
   return (
     <section className="text-center" aria-live="polite">
@@ -47,6 +56,17 @@ export function Success({ reserve, existing }: { reserve: Reserve; existing: boo
       <a href={config.socialUrl} className="eyebrow mt-6 inline-flex min-h-12 items-center text-emerald underline-offset-4 hover:underline">
         {s.follow}
       </a>
+
+      <div className="mt-8 flex justify-start">
+        <button
+          type="button"
+          onClick={onRestart ?? (() => window.location.reload())}
+          className="inline-flex min-h-11 items-center gap-2 text-[12px] text-slate underline-offset-4 hover:text-forest hover:underline"
+        >
+          <Star />
+          {s.restart}
+        </button>
+      </div>
     </section>
   );
 }
