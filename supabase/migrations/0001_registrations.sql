@@ -1,10 +1,11 @@
--- The Bench: registrations for The Alfie's opening night reserves list.
+-- The Bench: The Alfie's reserves list (the waitlist for booking once the venue is open).
 -- The four audiences from Grid's brand deck.
 create type public.fan_type as enum ('connoisseur', 'passionate', 'social', 'uninitiated');
 
 create table public.registrations (
   id uuid primary key default gen_random_uuid(),
-  squad_number integer generated always as identity (start with 1) unique not null,
+  -- Shown to guests as their Reserve No.; starts at 1001 so the line looks long from day one.
+  squad_number integer generated always as identity (start with 1001) unique not null,
   first_name text not null check (char_length(first_name) between 1 and 60),
   surname text not null check (char_length(surname) between 1 and 60),
   email text not null unique check (email = lower(email)),

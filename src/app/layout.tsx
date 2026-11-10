@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "The Bench · The Alfie by Heineken",
-  description: "Join The Bench for The Alfie's opening night at Melrose Arch.",
+  description: "Join The Bench, the reserves list for a seat at The Alfie, Melrose Arch.",
   // Keep the team preview out of search results.
   ...(isPreviewMode ? { robots: { index: false, follow: false } } : {}),
 };

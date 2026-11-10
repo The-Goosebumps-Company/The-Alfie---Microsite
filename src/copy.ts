@@ -17,10 +17,10 @@ export const copy = {
     underage: "Sorry, you need to be 18 or older to visit this site.",
   },
   hero: {
-    eyebrow: `MELROSE ARCH · HIGH STREET · ${config.openingMonth.toUpperCase()}`,
+    eyebrow: ["MELROSE ARCH · HIGH STREET", `OPENING ${config.openingMonth.toUpperCase()}`], // two lines
     headline: "Get on the bench.",
     subhead:
-      "Opening night is coming. Join The Bench and you could get the call-up to take the field when The Alfie opens its doors.",
+      "A seat at The Alfie won't come from a phone call. It starts on The Bench: join the reserves and wait for your call-up.",
   },
   form: {
     firstName: "First name",
@@ -56,21 +56,23 @@ export const copy = {
     social: { title: "The Social Architect", line: "Organises the group, arrival to last orders." },
     uninitiated: { title: "The Uninitiated Luxury Guest", line: "Here for the table. Staying for the energy." },
   },
-  // The Bench is a waitlist: nothing here may read as a ticket or a promise of entry.
+  // The Bench is the waitlist for booking The Alfie once it's open. Nothing here may read as a
+  // ticket or a promise of a booking.
   success: {
     heading: (firstName: string) => `You're on the bench, ${firstName}.`,
-    body: "Stay warm. If you get the call-up for opening night, you'll hear from us first.",
+    body: "Stay warm. When a seat opens up, you'll hear from us first.",
     reserveLabel: "RESERVE No.",
+    reserveNote: "Your place on The Bench. Hold on to it.",
     nextHeading: "What happens next",
     steps: [
-      { title: "You’re on the bench", line: "Your place on the reserves list is saved. There’s nothing else you need to do." },
+      { title: "You’re on the bench", line: "Your reserve number is saved. There’s nothing else you need to do." },
       {
         title: "Wait for the call-up",
-        line: "Call-ups for opening night are made by The Alfie. If you’re selected, we’ll email you a personal invitation.",
+        line: "Once The Alfie opens, seats are offered to The Bench in waves. If you’re called up, we’ll email you a personal invitation.",
       },
-      { title: "Bring your invitation", line: "That email is your way in on the night. This page isn’t a ticket." },
+      { title: "Book your seat", line: "Your invitation is how you book. This page isn’t a booking." },
     ],
-    disclaimer: "Joining The Bench doesn’t guarantee entry to opening night.",
+    disclaimer: "Joining The Bench doesn’t guarantee a booking. Call-ups are made by The Alfie.",
     follow: `Follow ${config.socialHandle}`,
   },
   errors: {

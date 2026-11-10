@@ -1,7 +1,7 @@
 "use client";
 
-// After joining: a waitlist confirmation, not a ticket. The real invitation is emailed
-// only if a guest gets the call-up, so nothing here can be shown at the door.
+// After joining: a waitlist confirmation, not a ticket or booking. Invitations to book are
+// emailed only to guests who get the call-up, so nothing here can be used to get in.
 import { config } from "@/config";
 import { copy } from "@/copy";
 import { Logo } from "./Shell";
@@ -21,6 +21,7 @@ export function Success({ reserve, existing }: { reserve: Reserve; existing: boo
         <div className="text-center">
           <p className="eyebrow text-mint">{s.reserveLabel}</p>
           <p className="mt-1 font-body text-[56px] font-normal leading-none tracking-[0.08em]">{reserve.number}</p>
+          <p className="mt-3 text-[13px] text-white/60">{s.reserveNote}</p>
         </div>
 
         <div aria-hidden className="my-7 h-px bg-white/15" />
