@@ -3,10 +3,10 @@
 // Static demo only: the /bench flow without a server. The age pass lives in sessionStorage,
 // so closing the tab brings the age gate back.
 import { useEffect, useState } from "react";
+import { DEMO_AGE_KEY as KEY } from "@/lib/client/api";
 import { AgeGate } from "./AgeGate";
 import { BenchForm } from "./BenchForm";
 
-const KEY = "alfie_demo_age";
 
 export function DemoBench() {
   const [passed, setPassed] = useState<boolean | null>(null);

@@ -52,18 +52,7 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
   const honeypot = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  if (result) {
-    return (
-      <Success
-        reserve={result.reserve}
-        existing={result.existing}
-        onRestart={() => {
-          setResult(null); // back to the form; their entries are still in state
-          window.scrollTo({ top: 0 });
-        }}
-      />
-    );
-  }
+  if (result) return <Success reserve={result.reserve} existing={result.existing} />;
 
   const set = <K extends keyof FormInput>(key: K, value: FormInput[K]) => {
     setV((prev) => {

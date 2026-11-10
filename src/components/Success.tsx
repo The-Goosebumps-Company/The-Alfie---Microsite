@@ -4,6 +4,7 @@
 // emailed only to guests who get the call-up, so nothing here can be used to get in.
 import { config } from "@/config";
 import { copy } from "@/copy";
+import { backToKickOff } from "@/lib/client/api";
 import { Logo } from "./Shell";
 
 export type Reserve = { number: string; firstName: string };
@@ -16,8 +17,7 @@ function Star() {
   );
 }
 
-// onRestart returns to the form with what they typed still filled in, so a typo is a quick fix.
-export function Success({ reserve, existing, onRestart }: { reserve: Reserve; existing: boolean; onRestart?: () => void }) {
+export function Success({ reserve, existing }: { reserve: Reserve; existing: boolean }) {
   const s = copy.success;
   return (
     <section className="text-center" aria-live="polite">
@@ -57,10 +57,11 @@ export function Success({ reserve, existing, onRestart }: { reserve: Reserve; ex
         {s.follow}
       </a>
 
+      {/* A full reset: clears the form and the age pass and returns to the age gate. */}
       <div className="mt-8 flex justify-start">
         <button
           type="button"
-          onClick={onRestart ?? (() => window.location.reload())}
+          onClick={backToKickOff}
           className="inline-flex min-h-11 items-center gap-2 text-[12px] text-slate underline-offset-4 hover:text-forest hover:underline"
         >
           <Star />

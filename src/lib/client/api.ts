@@ -23,6 +23,19 @@ async function post<T>(url: string, body: unknown): Promise<T> {
   return res.json().catch(() => ({ ok: false, error: "server" }));
 }
 
+/** Where the static demo keeps its age pass (sessionStorage), shared with DemoBench. */
+export const DEMO_AGE_KEY = "alfie_demo_age";
+
+/** Starts the whole flow again from the age gate: forgets the age pass and reloads the page. */
+export async function backToKickOff() {
+  try {
+    if (isStaticDemo) sessionStorage.removeItem(DEMO_AGE_KEY);
+    else await fetch("/api/age", { method: "DELETE" });
+  } finally {
+    window.location.reload();
+  }
+}
+
 export async function checkAge(dob: DobParts): Promise<AgeResult> {
   if (!isStaticDemo) return post("/api/age", dob);
   const iso = toIsoDate(dob);

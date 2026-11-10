@@ -25,3 +25,10 @@ export async function POST(req: NextRequest) {
   res.cookies.set(AGE_COOKIE, makeAgeCookie(dob), ageCookieOptions);
   return res;
 }
+
+/** "Back to kick-off": forget the age pass so the guest starts again from the age gate. */
+export function DELETE() {
+  const res = NextResponse.json({ ok: true });
+  res.cookies.delete(AGE_COOKIE);
+  return res;
+}
