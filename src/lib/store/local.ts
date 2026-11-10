@@ -31,7 +31,7 @@ export const localStore: RegistrationStore = {
       const registration: Registration = {
         ...reg,
         id: randomUUID(),
-        squadNumber: rows.reduce((max, r) => Math.max(max, r.squadNumber), 1000) + 1, // first reserve is 1001
+        squadNumber: rows.reduce((max, r) => Math.max(max, r.squadNumber), 499) + 1, // first reserve is 500
         createdAt: new Date().toISOString(),
       };
       rows.push(registration);

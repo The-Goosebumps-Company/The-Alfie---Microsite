@@ -47,7 +47,7 @@ export async function checkAge(dob: DobParts): Promise<AgeResult> {
 function demoSquad(email: string): number {
   let h = 0;
   for (const c of email) h = (h * 31 + c.charCodeAt(0)) >>> 0;
-  return (h % 9000) + 1000;
+  return (h % 9500) + 500; // 500–9999, like the real list
 }
 
 export async function register(payload: FormInput & { src: string; box: string | null; website: string }): Promise<RegisterResult> {

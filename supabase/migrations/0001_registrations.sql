@@ -4,8 +4,8 @@ create type public.fan_type as enum ('connoisseur', 'passionate', 'social', 'uni
 
 create table public.registrations (
   id uuid primary key default gen_random_uuid(),
-  -- Shown to guests as their Reserve No.; starts at 1001 so the line looks long from day one.
-  squad_number integer generated always as identity (start with 1001) unique not null,
+  -- Shown to guests as their Reserve No.; starts at 500 so the line looks long from day one.
+  squad_number integer generated always as identity (start with 500) unique not null,
   first_name text not null check (char_length(first_name) between 1 and 60),
   surname text not null check (char_length(surname) between 1 and 60),
   email text not null unique check (email = lower(email)),
