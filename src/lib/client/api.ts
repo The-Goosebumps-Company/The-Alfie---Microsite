@@ -13,7 +13,7 @@ export type AgeResult = { ok?: boolean; underage?: boolean; error?: string };
 export type RegisterResult = {
   ok: boolean;
   existing?: boolean;
-  ticket?: { id: string; squad: string; firstName: string; surname: string; squadNumber?: number; fanType?: string | null } | null;
+  reserve?: { number: string; firstName: string } | null;
   error?: string;
   errors?: Errors;
 };
@@ -30,7 +30,7 @@ export async function checkAge(dob: DobParts): Promise<AgeResult> {
   return ageOn(iso) < config.minimumAge ? { ok: false, underage: true } : { ok: true };
 }
 
-/** A stable made-up squad number for the demo, so the same email always gets the same ticket. */
+/** A stable made-up reserve number for the demo, so the same email always gets the same number. */
 function demoSquad(email: string): number {
   let h = 0;
   for (const c of email) h = (h * 31 + c.charCodeAt(0)) >>> 0;
@@ -41,10 +41,5 @@ export async function register(payload: FormInput & { src: string; box: string |
   if (!isStaticDemo) return post("/api/register", payload);
   const { errors, data } = validateForm(payload);
   if (!data) return { ok: false, errors };
-  const squadNumber = demoSquad(data.email);
-  return {
-    ok: true,
-    existing: false,
-    ticket: { id: "demo", squad: formatSquad(squadNumber), squadNumber, firstName: data.firstName, surname: data.surname, fanType: data.fanType },
-  };
+  return { ok: true, existing: false, reserve: { number: formatSquad(demoSquad(data.email)), firstName: data.firstName } };
 }

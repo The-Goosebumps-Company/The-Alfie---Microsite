@@ -7,12 +7,7 @@ import { formatSquad } from "@/lib/squad";
 import { getStore, type Registration } from "@/lib/store";
 import { validateForm } from "@/lib/validate";
 
-const ticketOf = (r: Registration) => ({
-  id: r.id,
-  squad: formatSquad(r.squadNumber),
-  firstName: r.firstName,
-  surname: r.surname,
-});
+const reserveOf = (r: Registration) => ({ number: formatSquad(r.squadNumber), firstName: r.firstName });
 
 const same = (a: string, b: string) => a.localeCompare(b, "en", { sensitivity: "base" }) === 0;
 
@@ -47,12 +42,12 @@ export async function POST(req: NextRequest) {
     });
 
     if (existing) {
-      // Only hand back the ticket if the name matches, so typing someone
-      // else's email doesn't reveal their name or squad number.
+      // Only hand back the reserve number if the name matches, so typing someone
+      // else's email doesn't reveal their name or number.
       const match = same(registration.firstName, data.firstName) && same(registration.surname, data.surname);
-      return NextResponse.json({ ok: true, existing: true, ticket: match ? ticketOf(registration) : null });
+      return NextResponse.json({ ok: true, existing: true, reserve: match ? reserveOf(registration) : null });
     }
-    return NextResponse.json({ ok: true, existing: false, ticket: ticketOf(registration) });
+    return NextResponse.json({ ok: true, existing: false, reserve: reserveOf(registration) });
   } catch (err) {
     console.error("register failed", err);
     return NextResponse.json({ ok: false, error: "server" }, { status: 500 });

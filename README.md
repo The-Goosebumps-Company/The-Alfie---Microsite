@@ -2,7 +2,8 @@
 
 Registration microsite behind the QR on The Alfie's Melrose Arch hoarding. The project brief (HANDOVER.md) is kept outside this repo, with G&G.
 
-Age gate → one-page hero + form → success screen with a personalised bench ticket (also a PNG).
+Age gate → one-page hero + form → "You're on the bench" waitlist confirmation with a reserve number.
+The Bench is a waitlist: nothing on the site is a ticket or promises entry; invitations are emailed only to guests who get the call-up.
 
 ## Run it locally
 
@@ -21,8 +22,7 @@ Open http://localhost:3000/bench?src=hoarding. Without Supabase keys, sign-ups s
 |---|---|
 | All wording | `src/copy.ts` |
 | Settings (opening month, handle, policy URLs, consent version, rate limit) | `src/config.ts` |
-| Fonts (Google stand-ins for Grid's) | `src/fonts/index.ts`, files in `src/fonts/web` and `src/fonts/ticket` |
-| Bench ticket (page + PNG, reused for the v2 email) | `src/ticket/` → `/api/ticket/[id]` (`?download=1` to save) |
+| Fonts (Google stand-ins for Grid's) | `src/fonts/index.ts`, files in `src/fonts/web` |
 | Server rules (age re-check, validation, honeypot, rate limit) | `src/app/api/register/route.ts` |
 | Database schema | `supabase/migrations/0001_registrations.sql` |
 
@@ -34,8 +34,7 @@ Every push to `main` runs `.github/workflows/pages.yml`, which builds a static d
 (`npm run build:demo`, see `scripts/build-demo.mjs`) and publishes it to GitHub Pages:
 https://the-goosebumps-company.github.io/The-Alfie---Microsite/
 
-The demo has no server: the age check, sign-up and ticket (including the download) run in
-the browser, and nothing is saved. A "Preview" bar shows and search engines are told not
+The demo has no server: the age check and sign-up run in the browser, and nothing is saved. A "Preview" bar shows and search engines are told not
 to index it. One-off setup: repo Settings → Pages → Source: **GitHub Actions**.
 
 `PREVIEW_MODE=1` does the same "nothing saved" trick on a real server host (e.g. Vercel).
@@ -52,5 +51,5 @@ On Vercel the site refuses to save without Supabase, so sign-ups can't silently 
 ## Notes
 
 - If the opt-in or privacy wording changes, bump `consentTextVersion` in `config.ts`.
-- Someone re-entering an existing email only gets their ticket back if the name matches too; otherwise they see "You're already on the bench", so nobody can look up another person's details.
+- Someone re-entering an existing email only gets their reserve number back if the name matches too; otherwise they see "You're already on the bench", so nobody can look up another person's details.
 - The rate limit is in memory, per server instance, and generous (30 per IP per 10 min) because phones on the street share mobile-network IPs.

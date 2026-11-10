@@ -40,7 +40,4 @@ export const localStore: RegistrationStore = {
       return { registration, existing: false };
     });
   },
-  async get(id) {
-    return (await load()).find((r) => r.id === id) ?? null;
-  },
 };

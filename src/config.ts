@@ -9,8 +9,6 @@ export const config = {
   competitionTermsUrl: "/terms#call-ups", // placeholder; needed if The Bench becomes a draw
   // Bump this whenever the opt-in or privacy wording in copy.ts changes.
   consentTextVersion: "2026-11-06.v1",
-  // Bump when the ticket design changes so browsers fetch the new image instead of a cached one.
-  ticketVersion: 3,
   minimumAge: 18,
   ageCookieDays: 30,
   // Per IP. Street scans share mobile-network IPs, so keep this generous.
@@ -18,13 +16,14 @@ export const config = {
   defaultSource: "direct",
 } as const;
 
-// Suggestions in the sports picker, most-followed first. Guests can also add their own.
-export const SPORTS = [
-  "Rugby", "Football", "Cricket", "F1", "Golf", "Tennis", "Padel", "Boxing", "UFC / MMA", "Basketball",
-  "NFL", "Athletics", "Cycling", "Horse racing", "MotoGP", "Netball", "Hockey", "Swimming", "Surfing",
-  "Polo", "Sailing", "Squash", "Darts", "Snooker", "Esports", "Baseball", "Ice hockey", "Volleyball",
-  "Triathlon", "Rowing",
-];
+// The six featured sports, shown as tiles. Guests can add others under "Other".
+export const SPORTS = ["Rugby", "Tennis", "F1", "Soccer", "Cricket", "Golf"];
+// Other spellings guests might type, saved under the featured name.
+export const SPORT_ALIASES: Record<string, string> = {
+  football: "Soccer",
+  "formula 1": "F1",
+  "formula one": "F1",
+};
 export const MAX_SPORTS = 12;
 export const MAX_SPORT_LENGTH = 30;
 

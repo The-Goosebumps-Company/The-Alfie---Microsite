@@ -26,5 +26,4 @@ export type Registration = NewRegistration & {
 export interface RegistrationStore {
   /** Inserts, or returns the existing row when the email is already on the bench. */
   create(reg: NewRegistration): Promise<{ registration: Registration; existing: boolean }>;
-  get(id: string): Promise<Registration | null>;
 }

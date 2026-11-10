@@ -5,7 +5,6 @@ import sharp from "sharp";
 
 const ALFIE = "/Users/kelvinurwin/Desktop/THE ALFIE";
 const SRC = {
-  alfieHorizontal: `${ALFIE}/The Alfie/Alfie Graphic Design FIles/Logo/png/The Alfie_Logo_WIP_Artboard 2 copy 2.png`,
   alfie: `${ALFIE}/The Alfie/Alfie Graphic Design FIles/Logo/png/The Alfie_Logo_WIP_Artboard 1 copy 2.png`,
   heineken: `${ALFIE}/NEW ALFIE SHARED FOLDER/Partner Logos/logo-heineken-red.png`,
   marble: `${ALFIE}/NEW ALFIE SHARED FOLDER/Partner Logos/logo-marble-red.png`,
@@ -86,6 +85,3 @@ await save(tint(await raw("public/alfie-lockup.png"), true), "public/alfie-locku
 for (const name of ["heineken", "marble", "gg"]) {
   await save(tint(await raw(`public/partners/${name}.png`)), `public/partners/${name}-green.png`, 160);
 }
-
-// The horizontal "The ALFIE ★" for the bench ticket (read from disk by the ticket route).
-await save(tint(await raw(SRC.alfieHorizontal), true), "src/ticket/alfie-wordmark.png", 180);

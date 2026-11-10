@@ -7,7 +7,7 @@ const GAP = 28;
 const SCREENS = [
   { name: "age", label: "1 · Age gate" },
   { name: "form", label: "2 · Landing + form" },
-  { name: "success", label: "3 · Success + ticket" },
+  { name: "success", label: "3 · On the bench" },
 ];
 
 export function ScreensBoard() {

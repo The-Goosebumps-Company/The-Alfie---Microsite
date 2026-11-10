@@ -78,9 +78,4 @@ export const supabaseStore: RegistrationStore = {
     if (existing.error) throw existing.error;
     return { registration: fromRow(existing.data), existing: true };
   },
-  async get(id) {
-    const { data, error } = await db().from("registrations").select().eq("id", id).maybeSingle<Row>();
-    if (error) throw error;
-    return data ? fromRow(data) : null;
-  },
 };

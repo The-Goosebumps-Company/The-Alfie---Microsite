@@ -4,8 +4,7 @@ import { AgeGate } from "@/components/AgeGate";
 import { BenchForm } from "@/components/BenchForm";
 import { Shell } from "@/components/Shell";
 import { Success } from "@/components/Success";
-import { SAMPLE, SAMPLE_TICKET_ID, isDev } from "@/lib/devPreview";
-import { formatSquad } from "@/lib/squad";
+import { SAMPLE, isDev } from "@/lib/devPreview";
 import { ScrollTop } from "./ScrollTop";
 
 export default async function ScreenPreview({ params }: { params: Promise<{ name: string }> }) {
@@ -15,12 +14,7 @@ export default async function ScreenPreview({ params }: { params: Promise<{ name
   const screens: Record<string, React.ReactNode> = {
     age: <AgeGate />,
     form: <BenchForm src="preview" box={null} />,
-    success: (
-      <Success
-        existing={false}
-        ticket={{ id: SAMPLE_TICKET_ID, squad: formatSquad(SAMPLE.squadNumber), firstName: SAMPLE.firstName, surname: SAMPLE.surname }}
-      />
-    ),
+    success: <Success existing={false} reserve={{ number: SAMPLE.reserveNumber, firstName: SAMPLE.firstName }} />,
   };
   if (!(name in screens)) notFound();
   return (

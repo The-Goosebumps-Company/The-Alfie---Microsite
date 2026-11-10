@@ -1,7 +1,6 @@
 // Font families in one place. Google stand-ins for Grid's typefaces, self-hosted from ./web:
 // Pinyon Script → Ed Lavonia Script, Cormorant Garamond → Romie Serif, Jost → Europa Sans.
-// To swap: drop Grid's files into ./web (and TTF/OTF copies into ./ticket for the ticket PNG)
-// and point the paths below at them.
+// To swap: drop Grid's files into ./web and point the paths below at them.
 import localFont from "next/font/local";
 
 export const scriptFont = localFont({

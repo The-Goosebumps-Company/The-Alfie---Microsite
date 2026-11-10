@@ -9,8 +9,8 @@ import { register } from "@/lib/client/api";
 import { suggestEmail } from "@/lib/emailTypos";
 import { validateForm, type Errors, type FieldKey, type FormInput } from "@/lib/validate";
 import { Hero } from "./Hero";
-import { SportsPicker } from "./SportsPicker";
-import { Success, type TicketResult } from "./Success";
+import { SportsTiles } from "./SportsTiles";
+import { Success, type Reserve } from "./Success";
 
 const ORDER: FieldKey[] = ["firstName", "surname", "email", "mobile"];
 
@@ -48,11 +48,11 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
   const [notice, setNotice] = useState<string | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [result, setResult] = useState<{ ticket: TicketResult; existing: boolean } | null>(null);
+  const [result, setResult] = useState<{ reserve: Reserve; existing: boolean } | null>(null);
   const honeypot = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  if (result) return <Success ticket={result.ticket} existing={result.existing} />;
+  if (result) return <Success reserve={result.reserve} existing={result.existing} />;
 
   const set = <K extends keyof FormInput>(key: K, value: FormInput[K]) => {
     setV((prev) => {
@@ -88,8 +88,8 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
     setBusy(true);
     try {
       const json = await register({ ...v, src, box, website: honeypot.current?.value ?? "" });
-      if (json.ok && json.ticket) {
-        setResult({ ticket: json.ticket, existing: !!json.existing });
+      if (json.ok && json.reserve) {
+        setResult({ reserve: json.reserve, existing: !!json.existing });
         window.scrollTo({ top: 0 });
       } else if (json.ok) {
         setNotice(copy.errors.already);
@@ -165,7 +165,7 @@ export function BenchForm({ src, box }: { src: string; box: string | null }) {
             <ErrorText id="mobile-error" error={message("mobile")} />
           </div>
 
-          <SportsPicker value={v.sports} onChange={(next) => set("sports", next)} />
+          <SportsTiles value={v.sports} onChange={(next) => set("sports", next)} />
 
           {/* Laid out like the deck's "The elevated sports fan" page. */}
           <fieldset>

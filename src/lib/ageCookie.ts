@@ -7,7 +7,7 @@ import { isPreviewMode } from "./previewMode";
 export const AGE_COOKIE = "alfie_age";
 export const BLOCK_COOKIE = "alfie_u18";
 
-/** Signing key for the age cookie and preview tickets. Launch must set AGE_COOKIE_SECRET. */
+/** Signing key for the age cookie. Launch must set AGE_COOKIE_SECRET. */
 export function serverSecret(): string {
   const s = process.env.AGE_COOKIE_SECRET;
   if (s) return s;
@@ -16,7 +16,7 @@ export function serverSecret(): string {
   return "dev-only-secret";
 }
 
-export function sign(value: string): string {
+function sign(value: string): string {
   return createHmac("sha256", serverSecret()).update(value).digest("base64url");
 }
 
